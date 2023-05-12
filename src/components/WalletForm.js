@@ -3,7 +3,9 @@ import React, { Component } from 'react';
 class WalletForm extends Component {
   render() {
     return (
-      <div>WalletForm</div>
+      <div className="wallet-count">
+        oi
+      </div>
     );
   }
 }
