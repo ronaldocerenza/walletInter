@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { pushEmail } from '../redux/actions';
+import { addEmail } from '../redux/actions';
 
 class Login extends React.Component {
   state = {
@@ -43,7 +43,7 @@ class Login extends React.Component {
   handleClick = () => {
     const { history, dispatch } = this.props;
     const { email } = this.state;
-    dispatch(pushEmail(email));
+    dispatch(addEmail(email));
     history.push('/carteira');
   };
 

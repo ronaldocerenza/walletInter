@@ -1,21 +1,19 @@
-// Esse reducer será responsável por tratar o todas as informações relacionadas as despesas
-// Esse reducer será responsável por tratar as informações da pessoa usuária
-// import { REQUEST_IMAGE, GET_IMAGE, GET_NAME, FAILED_REQUEST } from '../actions';
+import { REQUEST_SUCCESS } from '../actions/actionType';
 
 const INITIAL_STATE = {
-  isFetching: false,
-  imagePath: '',
-  name: '',
-  error: '',
+  currencies: [], // array de string
+  expenses: [], // array de objetos, com cada objeto tendo as chaves id, value, currency, method, tag, description e exchangeRates
+  editor: false, // valor booleano que indica de uma despesa está sendo editada
+  idToEdit: 0, // valor numérico que armazena o id da despesa que esta sendo editada
 };
 
-function wallet(state = INITIAL_STATE, action) {
+const wallet = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-  case 1:
-    return { ...state, isFetching: true };
+  case REQUEST_SUCCESS:
+    return { ...state, currencies: action.payload };
   default:
     return state;
   }
-}
+};
 
 export default wallet;
