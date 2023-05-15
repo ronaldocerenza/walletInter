@@ -16,6 +16,7 @@ class Table extends Component {
 
   render() {
     const { expenses } = this.props;
+    const heads = ['Descrição', 'Tag', 'Método de pagamento', 'Valor', 'Moeda', 'Câmbio utilizado', 'Valor convertido', 'Moeda de conversão', 'Editar/Excluir'];
     return (
       <div>
         <table>
