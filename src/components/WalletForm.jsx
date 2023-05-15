@@ -24,29 +24,9 @@ class WalletForm extends Component {
     });
   };
 
-  // handleClick = () => {
-  //   const { dispatch } = this.props;
-  //   const { value, description, currency, method, tag, id } = this.state;
-  //   const expense = {
-  //     id,
-  //     value,
-  //     description,
-  //     currency,
-  //     method,
-  //     tag,
-  //     exchangeRates: {},
-  //   };
-  //   dispatch(expense);
-
-  //   // O id da despesa deve ser um número sequencial
-  //   this.setState((prevState) => ({
-  //     id: prevState.id + 1,
-  //   }));
-  // };
-
   render() {
     const { value, description, currency, method, tag } = this.state;
-    const { currencys } = this.props;
+    const { currencies } = this.props;
 
     return (
       <div className="cart-count">
@@ -77,7 +57,7 @@ class WalletForm extends Component {
             value={ currency }
             onChange={ this.handleChange }
           >
-            {currencys.map((coin) => (
+            {currencies.map((coin) => (
               <option
                 value={ coin }
                 key={ coin }
@@ -110,7 +90,6 @@ class WalletForm extends Component {
           </select>
           <button
             type="button"
-            // onClick={ this.handleClick }
           >
             Adicionar despesa
           </button>
@@ -121,12 +100,12 @@ class WalletForm extends Component {
 }
 
 WalletForm.propTypes = {
-  currencys: PropTypes.arrayOf(PropTypes.string).isRequired,
+  currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
   dispatch: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state) => ({
-  currencys: state.wallet.currencys,
+const mapStateToProps = (globalState) => ({
+  currencies: globalState.wallet.currencies,
 });
 
 export default connect(mapStateToProps)(WalletForm);

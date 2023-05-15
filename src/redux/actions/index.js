@@ -19,8 +19,9 @@ export function getCurrencys() {
       // o data é o objeto com objetos
       const data = await response.json();
       // transformar objeto em um array de strings, neste caso o object.keys será a key (as moedas) filtrar para remover a moeda USDT
-      const arrayOfData = Object.keys(data).filter((currency) => currency !== 'USDT');
-      dispatch(requestSuccessful(arrayOfData));
+      const arrayAPI = Object.keys(data).filter((currency) => currency !== 'USDT');
+      console.log(arrayAPI);
+      dispatch(requestSuccessful(arrayAPI));
     } catch (error) {
       console.error(error);
     }

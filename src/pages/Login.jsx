@@ -10,6 +10,7 @@ class Login extends React.Component {
     isDisabled: true,
   };
 
+  // construido para validar e habilitar o botão de acordo com as validações
   onInputChange = ({ target }) => {
     const { name } = target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -19,11 +20,13 @@ class Login extends React.Component {
     }, this.validationBtn);
   };
 
+  // validação do e-mail
   validationEmail = (email) => {
     const re = /\S+@\S+\.\S+/;
     return re.test(email);
   };
 
+  // validação para ativar o botão
   validationBtn = () => {
     const {
       email,
@@ -34,12 +37,14 @@ class Login extends React.Component {
     const valEmail = this.validationEmail(email);
     const valPassword = password.length >= six && password.length <= eigth;
 
+    // disable is true set false para habilitar o botão
     this.setState({
       isDisabled: !(
         valEmail && valPassword),
     });
   };
 
+  // ao clicar no botão mudar a rota, e disparar a com a função addEmail criando uma chave no reducer user o e-mail digitado pelo usuario
   handleClick = () => {
     const { history, dispatch } = this.props;
     const { email } = this.state;
@@ -51,7 +56,6 @@ class Login extends React.Component {
     const { isDisabled } = this.state;
     return (
       <div className="login-container">
-        <img src="./public/logo192.png" alt="teste" />
         <form className="wallet-form">
           <label htmlFor="email-input">
             <input
@@ -86,9 +90,10 @@ class Login extends React.Component {
   }
 }
 
-export default connect()(Login);
-
 Login.propTypes = {
-  history: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired }).isRequired,
   dispatch: PropTypes.func.isRequired,
 };
+
+export default connect()(Login);
