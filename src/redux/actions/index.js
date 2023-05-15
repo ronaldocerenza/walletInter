@@ -1,4 +1,5 @@
-import { ADD_EMAIL, REQUEST_SUCCESSFUL, ADD_EXPENSE } from './actionType';
+import { ADD_EMAIL, REQUEST_SUCCESSFUL, ADD_EXPENSE,
+  DELETE_EXPENSE, EDIT_EXPENSE, SAVE_EDIT_EXPENSE } from './actionType';
 
 export const addEmail = (email) => ({
   type: ADD_EMAIL,

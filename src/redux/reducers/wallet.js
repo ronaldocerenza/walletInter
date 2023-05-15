@@ -1,4 +1,5 @@
-import { ADD_EXPENSE, REQUEST_SUCCESSFUL } from '../actions/actionType';
+import { ADD_EXPENSE, DELETE_EXPENSE,
+  EDIT_EXPENSE, REQUEST_SUCCESSFUL, SAVE_EDIT_EXPENSE } from '../actions/actionType';
 
 const INITIAL_STATE = {
   currencies: [], // array de string
@@ -13,6 +14,20 @@ const wallet = (state = INITIAL_STATE, action) => {
     return { ...state, currencies: action.payload };
   case ADD_EXPENSE:
     return { ...state, expenses: [...state.expenses, action.payload] };
+  case DELETE_EXPENSE:
+    return {
+      ...state,
+      expenses: state.expenses.filter(({ id }) => id !== action.payload),
+    };
+  case EDIT_EXPENSE:
+    return { ...state, editor: true, idToEdit: action.payload };
+  case SAVE_EDIT_EXPENSE:
+    return {
+      ...state,
+      editor: false,
+      expenses: state.expenses
+        .map((elem) => (elem.id === action.payload.id ? action.payload : elem)),
+    };
   default:
     return state;
   }
