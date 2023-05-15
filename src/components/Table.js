@@ -26,39 +26,40 @@ class Table extends Component {
             </tr>
           </thead>
           <tbody>
-            {expenses.map((expense) => (
-              <tr key={ expense.id }>
-                <td>{ expense.description }</td>
-                <td>{ expense.tag }</td>
-                <td>{ expense.method }</td>
-                <td>{ Number(expense.value).toFixed(2) }</td>
-                <td>{ expense.exchangeRates[expense.currency].name }</td>
-                <td>
-                  { Number(expense.exchangeRates[expense.currency].ask)
-                    .toFixed(2) }
-                </td>
-                <td>
-                  {
-                    (Number(expense.value)
-                  * Number(expense.exchangeRates[expense.currency].ask)).toFixed(2)
-                  }
-                </td>
-                <td>Real</td>
-                <td>
-                  <button
-                    type="button"
-                    data-testid="edit-btn"
-                    onClick={ () => this.handleClickEdit(expense.id) }
-                  >
-                    Editar
-                  </button>
-                  <button
-                    type="button"
-                    data-testid="delete-btn"
-                    onClick={ () => this.handleClickDelete(expense.id) }
-                  >
-                    Excluir
-                  </button>
+           {expenses
+              .map(({id, description, tag, method, value, exchangeRates, currency}) => (
+                <tr key={ id }>
+                  <td>{ description }</td>
+                  <td>{ tag }</td>
+                  <td>{ method }</td>
+                  <td>{ Number(value).toFixed(2) }</td>
+                  <td>{ exchangeRates[currency].name }</td>
+                  <td>
+                    { Number(exchangeRates[currency].ask)
+                      .toFixed(2) }
+                  </td>
+                  <td>
+                    {
+                      (Number(value)
+                    * Number(exchangeRates[currency].ask)).toFixed(2)
+                    }
+                  </td>
+                  <td>Real</td>
+                  <td>
+                    <button
+                      type="button"
+                      data-testid="edit-btn"
+                      onClick={ () => this.handleClickEdit(id) }
+                    >
+                      Editar
+                    </button>
+                    <button
+                      type="button"
+                      data-testid="delete-btn"
+                      onClick={ () => this.handleClickDelete(id) }
+                    >
+                      Excluir
+                    </button>
                 </td>
               </tr>
             ))}
