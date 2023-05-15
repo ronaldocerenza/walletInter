@@ -6,16 +6,13 @@ class Header extends Component {
   expensesValues = () => {
     const { expenses } = this.props;
     // se não houver nenhuma despesa salva, retorna o valor zero
-    if (expenses.length === 0) {
-      return '0.00';
-    }
     const arrayOfValues = expenses
       .map(({ currency, value, exchangeRates }) => {
         const exchange = exchangeRates[currency].ask;
         return (Number(value) * Number(exchange));
       });
     return arrayOfValues
-      .reduce((acc, curr) => Number(acc) + Number(curr))
+      .reduce((acc, curr) => Number(acc) + Number(curr), 0)
       .toFixed(2);
   };
 

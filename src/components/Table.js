@@ -16,56 +16,50 @@ class Table extends Component {
 
   render() {
     const { expenses } = this.props;
+    const heads = ['Descrição', 'Tag', 'Método de pagamento', 'Valor', 'Moeda', 'Câmbio utilizado', 'Valor convertido', 'Moeda de conversão', 'Editar/Excluir'];
     return (
       <div>
         <table>
           <thead>
             <tr>
-              <th>Descrição</th>
-              <th>Tag</th>
-              <th>Método de pagamento</th>
-              <th>Valor</th>
-              <th>Moeda</th>
-              <th>Câmbio utilizado</th>
-              <th>Valor convertido</th>
-              <th>Moeda de conversão</th>
-              <th>Editar/Excluir</th>
+              {heads.map(head => <th key={head}>{head}</th>)}
             </tr>
           </thead>
           <tbody>
-            {expenses.map((expense) => (
-              <tr key={ expense.id }>
-                <td>{ expense.description }</td>
-                <td>{ expense.tag }</td>
-                <td>{ expense.method }</td>
-                <td>{ Number(expense.value).toFixed(2) }</td>
-                <td>{ expense.exchangeRates[expense.currency].name }</td>
-                <td>
-                  { Number(expense.exchangeRates[expense.currency].ask)
-                    .toFixed(2) }
-                </td>
-                <td>
-                  {
-                    (Number(expense.value)
-                  * Number(expense.exchangeRates[expense.currency].ask)).toFixed(2)
-                  }
-                </td>
-                <td>Real</td>
-                <td>
-                  <button
-                    type="button"
-                    data-testid="edit-btn"
-                    onClick={ () => this.handleClickEdit(expense.id) }
-                  >
-                    Editar
-                  </button>
-                  <button
-                    type="button"
-                    data-testid="delete-btn"
-                    onClick={ () => this.handleClickDelete(expense.id) }
-                  >
-                    Excluir
-                  </button>
+           {expenses
+              .map(({id, description, tag, method, value, exchangeRates, currency}) => (
+                <tr key={ id }>
+                  <td>{ description }</td>
+                  <td>{ tag }</td>
+                  <td>{ method }</td>
+                  <td>{ Number(value).toFixed(2) }</td>
+                  <td>{ exchangeRates[currency].name }</td>
+                  <td>
+                    { Number(exchangeRates[currency].ask)
+                      .toFixed(2) }
+                  </td>
+                  <td>
+                    {
+                      (Number(value)
+                    * Number(exchangeRates[currency].ask)).toFixed(2)
+                    }
+                  </td>
+                  <td>Real</td>
+                  <td>
+                    <button
+                      type="button"
+                      data-testid="edit-btn"
+                      onClick={ () => this.handleClickEdit(id) }
+                    >
+                      Editar
+                    </button>
+                    <button
+                      type="button"
+                      data-testid="delete-btn"
+                      onClick={ () => this.handleClickDelete(id) }
+                    >
+                      Excluir
+                    </button>
                 </td>
               </tr>
             ))}
