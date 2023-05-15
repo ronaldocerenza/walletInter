@@ -55,8 +55,8 @@ class Login extends React.Component {
   render() {
     const { isDisabled } = this.state;
     return (
-      <div className="login-container">
-        <form className="wallet-form">
+      <div className="border-2 border-orange-500 shadow-lg p-10 rounded-xl">
+        <form className="flex flex-col">
           <label htmlFor="email-input">
             <input
               onChange={ this.onInputChange }
