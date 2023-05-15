@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getCurrencys } from '../redux/actions/index';
+import { addExpense, getCurrencys } from '../redux/actions/index';
 
 class WalletForm extends Component {
   state = {
@@ -10,6 +10,7 @@ class WalletForm extends Component {
     currency: 'USD',
     method: 'dinheiro',
     tag: 'alimentacao',
+    id: 0,
   };
 
   // realiza a requisição da API para obter a lista de moedas com a getCurrencys()
@@ -24,9 +25,74 @@ class WalletForm extends Component {
     });
   };
 
+  handleClick = async () => {
+    const { dispatch } = this.props;
+    const { value, description, currency, method, tag, id } = this.state;
+    const expense = {
+      value,
+      description,
+      currency,
+      method,
+      tag,
+      id,
+      exchangeRates: await this.exchangeRates(),
+    };
+    dispatch(addExpense(expense));
+
+    this.setState({
+      value: '',
+      description: '',
+      currency: 'USD',
+      method: 'Dinheiro',
+      tag: 'Alimentação',
+    });
+
+    // O id da despesa para usar para editar
+    this.setState((prevState) => ({
+      id: prevState.id + 1,
+    }));
+  };
+
+  exchangeRates = async () => {
+    try {
+      const response = await fetch('https://economia.awesomeapi.com.br/json/all');
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // função após o clique de editar despesa. Ele cria um novo objeto com as informações da despesa, passando o mesmo id do estado global (idToEdit).
+  handleClickEdit = async () => {
+    const { dispatch, expenses, idToEdit } = this.props;
+    const { value, description, currency, method, tag } = this.state;
+    const expense = {
+      id: idToEdit,
+      value,
+      description,
+      currency,
+      method,
+      tag,
+      exchangeRates: await this.exchangeRates(),
+    };
+    dispatch(saveEditExpense(expense));
+    this.setState({
+      value: '',
+      description: '',
+      currency: 'USD',
+      method: 'Dinheiro',
+      tag: 'Alimentação',
+    });
+    // Após disparar a ação de salvar a despesa editada, o id do estado local volta a ser o id sequencial da lista de despesas
+    this.setState({
+      id: expenses[expenses.length - 1].id + 1,
+    });
+  };
+
   render() {
     const { value, description, currency, method, tag } = this.state;
-    const { currencies } = this.props;
+    const { currencies, editor } = this.props;
 
     return (
       <div className="cart-count">
@@ -72,9 +138,9 @@ class WalletForm extends Component {
             value={ method }
             onChange={ this.handleChange }
           >
-            <option value="dinheiro">Dinheiro</option>
-            <option value="credito">Cartão de crédito</option>
-            <option value="debito">Cartão de débito</option>
+            <option value="Dinheiro">Dinheiro</option>
+            <option value="Cartão de crédito">Cartão de crédito</option>
+            <option value="Cartão de débito">Cartão de débito</option>
           </select>
           <select
             data-testid="tag-input"
@@ -82,17 +148,23 @@ class WalletForm extends Component {
             value={ tag }
             onChange={ this.handleChange }
           >
-            <option value="alimentacao">Alimentação</option>
-            <option value="lazer">Lazer</option>
-            <option value="trabalho">Trabalho</option>
-            <option value="transporte">Transporte</option>
-            <option value="saude">Saúde</option>
+            <option value="Alimentação">Alimentação</option>
+            <option value="Lazer">Lazer</option>
+            <option value="Trabalho">Trabalho</option>
+            <option value="Transporte">Transporte</option>
+            <option value="Saúde">Saúde</option>
           </select>
-          <button
-            type="button"
-          >
-            Adicionar despesa
-          </button>
+          {
+            editor ? (
+              <button type="button" onClick={ this.handleClickEdit }>
+                Editar despesa
+              </button>)
+              : (
+                <button type="button" onClick={ this.handleClick }>
+                  Adicionar despesa
+                </button>
+              )
+          }
         </form>
       </div>
     );
@@ -102,10 +174,18 @@ class WalletForm extends Component {
 WalletForm.propTypes = {
   currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
   dispatch: PropTypes.func.isRequired,
+  editor: PropTypes.bool.isRequired,
+  expenses: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number,
+  })).isRequired,
+  idToEdit: PropTypes.number.isRequired,
 };
 
-const mapStateToProps = (globalState) => ({
-  currencies: globalState.wallet.currencies,
+const mapStateToProps = (state) => ({
+  currencies: state.wallet.currencies,
+  editor: state.wallet.editor,
+  idToEdit: state.wallet.idToEdit,
+  expenses: state.wallet.expenses,
 });
 
 export default connect(mapStateToProps)(WalletForm);

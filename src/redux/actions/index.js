@@ -1,4 +1,4 @@
-import { ADD_EMAIL, REQUEST_SUCCESS } from './actionType';
+import { ADD_EMAIL, REQUEST_SUCCESSFUL, ADD_EXPENSE } from './actionType';
 
 export const addEmail = (email) => ({
   type: ADD_EMAIL,
@@ -6,7 +6,7 @@ export const addEmail = (email) => ({
 });
 
 export const requestSuccessful = (data) => ({
-  type: REQUEST_SUCCESS,
+  type: REQUEST_SUCCESSFUL,
   payload: data,
 });
 
@@ -20,7 +20,6 @@ export function getCurrencys() {
       const data = await response.json();
       // transformar objeto em um array de strings, neste caso o object.keys será a key (as moedas) filtrar para remover a moeda USDT
       const arrayAPI = Object.keys(data).filter((currency) => currency !== 'USDT');
-      console.log(arrayAPI);
       dispatch(requestSuccessful(arrayAPI));
     } catch (error) {
       console.error(error);
@@ -30,5 +29,20 @@ export function getCurrencys() {
 
 export const addExpense = (expense) => ({
   type: ADD_EXPENSE,
+  payload: expense,
+});
+
+export const deleteExpense = (id) => ({
+  type: DELETE_EXPENSE,
+  payload: id,
+});
+
+export const editExpense = (id) => ({
+  type: EDIT_EXPENSE,
+  payload: id,
+});
+
+export const saveEditExpense = (expense) => ({
+  type: SAVE_EDIT_EXPENSE,
   payload: expense,
 });
