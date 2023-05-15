@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { addExpense, getCurrencys } from '../redux/actions/index';
+import { addExpense, getCurrencys, saveEditExpense } from '../redux/actions/index';
 
 class WalletForm extends Component {
   state = {
@@ -84,7 +84,7 @@ class WalletForm extends Component {
       method: 'Dinheiro',
       tag: 'Alimentação',
     });
-    // Após disparar a ação de salvar a despesa editada, o id do estado local volta a ser o id sequencial da lista de despesas
+
     this.setState({
       id: expenses[expenses.length - 1].id + 1,
     });
