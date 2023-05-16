@@ -95,8 +95,8 @@ class WalletForm extends Component {
     const { currencies, editor } = this.props;
 
     return (
-      <div className="cart-count">
-        <form className="cart-form">
+      <div className="flex flex-col justify-between w-10/12 p-4 rounded-lg bg-orange-100">
+        <form className="flex flex-col mb-5">
           <label htmlFor="value">
             <input
               onChange={ this.handleChange }
@@ -105,6 +105,10 @@ class WalletForm extends Component {
               name="value"
               value={ value }
               placeholder="Despesas"
+              className="w-full block border-2 p-1
+              placeholder:italic bg-white border-orange-300
+              focus:outline-none focus:border-orange-500 focus:ring-orange-400
+              focus:ring-1 shadow-md rounded-md mb-2"
             />
           </label>
           <label htmlFor="description">
@@ -115,6 +119,10 @@ class WalletForm extends Component {
               name="description"
               value={ description }
               placeholder="Descrição"
+              className="w-full block border-2 p-1
+              placeholder:italic bg-white border-orange-300
+              focus:outline-none focus:border-orange-500 focus:ring-orange-400
+              focus:ring-1 shadow-md rounded-md mb-2"
             />
           </label>
           <select
@@ -122,6 +130,8 @@ class WalletForm extends Component {
             name="currency"
             value={ currency }
             onChange={ this.handleChange }
+            className="w-full shadow-inner block disabled:opacity-60 bg-orange-300
+            rounded-md mb-2 p-1 enabled:bg-orange-200 text-white"
           >
             {currencies.map((coin) => (
               <option
@@ -137,6 +147,8 @@ class WalletForm extends Component {
             name="method"
             value={ method }
             onChange={ this.handleChange }
+            className="w-full shadow-inner block disabled:opacity-60 bg-orange-300
+            rounded-md mb-2 p-1 enabled:bg-orange-200 text-white"
           >
             <option value="Dinheiro">Dinheiro</option>
             <option value="Cartão de crédito">Cartão de crédito</option>
@@ -147,6 +159,8 @@ class WalletForm extends Component {
             name="tag"
             value={ tag }
             onChange={ this.handleChange }
+            className="w-full shadow-inner block disabled:opacity-60 bg-orange-300
+            rounded-md mb-2 p-1 enabled:bg-orange-200 text-white"
           >
             <option value="Alimentação">Alimentação</option>
             <option value="Lazer">Lazer</option>
@@ -156,11 +170,23 @@ class WalletForm extends Component {
           </select>
           {
             editor ? (
-              <button type="button" onClick={ this.handleClickEdit }>
+              <button
+                type="button"
+                onClick={ this.handleClickEdit }
+                className="w-full shadow-inner block disabled:opacity-60 bg-orange-300
+                rounded-md mb-2 p-1
+                enabled:bg-orange-500 text-white"
+              >
                 Editar despesa
               </button>)
               : (
-                <button type="button" onClick={ this.handleClick }>
+                <button
+                  type="button"
+                  onClick={ this.handleClick }
+                  className="w-full shadow-inner block disabled:opacity-60 bg-orange-300
+                  rounded-md mb-2 p-1
+                  enabled:bg-orange-500 text-white"
+                >
                   Adicionar despesa
                 </button>
               )

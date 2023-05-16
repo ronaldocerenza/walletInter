@@ -56,11 +56,15 @@ class Login extends React.Component {
     const { isDisabled } = this.state;
     return (
       <div className="border-2 border-orange-500 shadow-lg p-10 rounded-xl">
+        <h1 className="text-4xl text-amber-500 mb-4">Pra você</h1>
         <form className="flex flex-col">
           <label htmlFor="email-input">
             <input
               onChange={ this.onInputChange }
-              className="email-input"
+              className="w-full block border-2 p-1
+              placeholder:italic bg-white border-orange-300
+              focus:outline-none focus:border-orange-500 focus:ring-orange-400
+              focus:ring-1 shadow-md rounded-md mb-2"
               data-testid="email-input"
               type="email"
               name="email"
@@ -70,7 +74,10 @@ class Login extends React.Component {
           <label htmlFor="password-input">
             <input
               onChange={ this.onInputChange }
-              className="password-input"
+              className="w-full block border-2 p-1
+              placeholder:italic bg-white border-orange-300
+              focus:outline-none focus:border-orange-500 focus:ring-orange-400
+              focus:ring-1 shadow-md rounded-md mb-2"
               data-testid="password-input"
               type="password"
               name="password"
@@ -78,6 +85,9 @@ class Login extends React.Component {
             />
           </label>
           <button
+            className="w-full shadow-inner block disabled:opacity-60 bg-orange-300
+            rounded-md mb-2 p-1
+            enabled:bg-orange-500 text-white"
             type="button"
             disabled={ isDisabled }
             onClick={ this.handleClick }

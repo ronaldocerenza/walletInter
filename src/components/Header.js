@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 class Header extends Component {
   expensesValues = () => {
     const { expenses } = this.props;
-    // se não houver nenhuma despesa salva, retorna o valor zero
     const arrayOfValues = expenses
       .map(({ currency, value, exchangeRates }) => {
         const exchange = exchangeRates[currency].ask;
@@ -19,11 +18,14 @@ class Header extends Component {
   render() {
     const { email } = this.props;
     return (
-      <div>
-        <h2 data-testid="email-field">
+      <div
+        className="bg-orange-100 p-4 rounded-lg w-10/12
+      justify-center text-center m-5"
+      >
+        <h2 className="text-2xl text-orange-500 " data-testid="email-field">
           { email }
         </h2>
-        <h3 data-testid="total-field">
+        <h3 className="text-xl" data-testid="total-field">
           { this.expensesValues() }
         </h3>
         <h3 data-testid="header-currency-field">
