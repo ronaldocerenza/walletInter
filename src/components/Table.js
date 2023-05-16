@@ -25,11 +25,11 @@ class Table extends Component {
         right-0 top-0 items-center overflow-scroll"
       >
         <table
-          className="table-auto absolute bg-orange-100 top-0 min-w-full min-h-screen
-          border-separate border-spacing-2 justify-center"
+          className="table-auto divide-x-2 absolute bg-orange-100 min-w-full
+          border-separate border-spacing-2 justify-center top-0"
         >
-          <thead className="text-white bg-orange-500">
-            <tr className="h-16">
+          <thead className="text-white bg-orange-500 h-20">
+            <tr>
               {
                 heads.map(
                   (head) => (
@@ -43,43 +43,50 @@ class Table extends Component {
               }
             </tr>
           </thead>
-          <tbody className="h-16">
+          <tbody>
             {expenses
               .map(({ id, description, tag, method, value, exchangeRates, currency }) => (
                 <tr key={ id }>
                   <td
-                    className="text-center border border-white rounded-md"
+                    className="bg-white text-orange-500 text-center border border-white
+                    rounded-md"
                   >
                     { description }
                   </td>
                   <td
-                    className="text-orange-500 text-center border border-white rounded-md"
+                    className="bg-white text-orange-500 text-center border border-white
+                    rounded-md"
                   >
                     { tag }
                   </td>
                   <td
-                    className="text-orange-500 text-center border border-white rounded-md"
+                    className="bg-white text-orange-500 text-center border border-white
+                    rounded-md"
                   >
                     { method }
                   </td>
                   <td
-                    className="text-orange-500 text-center border border-white rounded-md"
+                    className="bg-white text-orange-500 text-center border border-white
+                    rounded-md"
                   >
                     { Number(value).toFixed(2) }
                   </td>
                   <td
-                    className="text-orange-500 text-center border border-white rounded-md"
+                    className="bg-white text-orange-500 text-center border border-white
+                    rounded-md"
                   >
                     { exchangeRates[currency].name }
                   </td>
                   <td
-                    className="text-orange-500 text-center border border-white rounded-md"
+                    className="bg-white text-orange-500 text-center border border-white
+                    rounded-md"
                   >
                     { Number(exchangeRates[currency].ask)
                       .toFixed(2) }
                   </td>
                   <td
-                    className="text-orange-500 text-center border border-white rounded-md"
+                    className="bg-white text-orange-500 text-center border border-white
+                    rounded-md"
                   >
                     {
                       (Number(value)
@@ -87,12 +94,14 @@ class Table extends Component {
                     }
                   </td>
                   <td
-                    className="text-orange-500 text-center border border-white rounded-md"
+                    className="bg-white text-orange-500 text-center border border-white
+                    rounded-md"
                   >
                     Real
                   </td>
                   <td
-                    className="text-orange-500 text-center border border-white rounded-md"
+                    className="bg-white text-orange-500 text-center border border-white
+                    rounded-md"
                   >
                     <button
                       type="button"

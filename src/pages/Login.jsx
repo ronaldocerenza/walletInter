@@ -86,7 +86,7 @@ class Login extends React.Component {
           </label>
           <button
             className="w-full shadow-inner block disabled:opacity-60 bg-orange-300
-            rounded-md mb-2 p-1
+            rounded-md mb-2 p-1 cursor-progress
             enabled:bg-orange-500 text-white"
             type="button"
             disabled={ isDisabled }
