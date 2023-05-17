@@ -1,6 +1,5 @@
 import React from 'react';
 import { screen } from '@testing-library/react';
-// import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { renderWithRouterAndRedux } from './helpers/renderWith';
 import mockData from './helpers/mockData';
@@ -8,6 +7,9 @@ import App from '../App';
 
 describe('Testando a pagina Wallet.js', () => {
   const initialEntries = ['/carteira'];
+
+  const valueInput = 'value-input';
+  const totalField = 'total-field';
 
   const expense1 = {
     value: '80',
@@ -53,7 +55,7 @@ describe('Testando a pagina Wallet.js', () => {
     expect(screen.getByText(/brl/i)).toBeInTheDocument();
     expect(screen.getByText(/0\.00/i)).toBeInTheDocument();
 
-    const value = screen.getByTestId('value-input');
+    const value = screen.getByTestId(valueInput);
     const description = screen.getByTestId('description-input');
     const currency = await screen.findByTestId('currency-input');
     const method = screen.getByTestId('method-input');
@@ -75,7 +77,7 @@ describe('Testando a pagina Wallet.js', () => {
       },
     };
     renderWithRouterAndRedux(<App />, { initialState, initialEntries });
-    const total = screen.getByTestId('total-field');
+    const total = screen.getByTestId(totalField);
     expect(total).toHaveTextContent('475.31');
   });
 
@@ -89,7 +91,7 @@ describe('Testando a pagina Wallet.js', () => {
     renderWithRouterAndRedux(<App />, { initialState, initialEntries });
     const button = screen.getAllByRole('button', { name: /excluir/i });
     userEvent.click(button[0]);
-    expect(screen.getByTestId('total-field')).toHaveTextContent('95.06');
+    expect(screen.getByTestId(totalField)).toHaveTextContent('95.06');
   });
 
   it('Verifica o botão de editar despesas', () => {
@@ -102,14 +104,16 @@ describe('Testando a pagina Wallet.js', () => {
     renderWithRouterAndRedux(<App />, { initialState, initialEntries });
     const button = screen.getAllByRole('button', { name: /editar/i });
     userEvent.click(button[0]);
-    const value = screen.getByTestId('value-input');
+    const value = screen.getByTestId(valueInput);
     userEvent.type(value, '200');
-    expect(screen.getByTestId('total-field')).toHaveTextContent('475.31');
+    expect(screen.getByTestId(totalField)).toHaveTextContent('475.31');
+    const buttonEdit = screen.getByRole('button', { name: /editar despesa/i });
+    userEvent.click(buttonEdit);
   });
 
   it('Verifica se adicionando a despesa, os inputs são limpos', () => {
     renderWithRouterAndRedux(<App />, { initialEntries });
-    const value = screen.getByTestId('value-input');
+    const value = screen.getByTestId(valueInput);
     const description = screen.getByTestId('description-input');
     const buttonAdd = screen.getByRole('button', { name: /adicionar despesa/i });
     userEvent.type(value, '200');
