@@ -10,34 +10,29 @@ class Login extends React.Component {
     isDisabled: true,
   };
 
-  // construido para validar e habilitar o botão de acordo com as validações
-  onInputChange = ({ target }) => {
-    const { name } = target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
-
+  // de acordo com a digitação do e-mail verifica se o e-mail é valido e se tem 6 digitos na senha
+  onInputChange = ({ target: { name, value } }) => {
     this.setState({
       [name]: value,
     }, this.validationBtn);
   };
 
-  // validação do e-mail
+  // função para validação do e-mail
   validationEmail = (email) => {
     const re = /\S+@\S+\.\S+/;
     return re.test(email);
   };
 
+  // construido para validar e habilitar o botão de acordo com as validações
   // validação para ativar o botão
   validationBtn = () => {
-    const {
-      email,
-      password,
-    } = this.state;
+    const { email, password } = this.state;
     const six = 6;
     const eigth = 8;
     const valEmail = this.validationEmail(email);
     const valPassword = password.length >= six && password.length <= eigth;
 
-    // disable is true set false para habilitar o botão
+    // se todas as validações forem verdadeiras isDisable vai para false e habilita o botão
     this.setState({
       isDisabled: !(
         valEmail && valPassword),
@@ -45,14 +40,17 @@ class Login extends React.Component {
   };
 
   // ao clicar no botão mudar a rota, e disparar a com a função addEmail criando uma chave no reducer user o e-mail digitado pelo usuario
+  // dispara a função addEmail que é uma action para alimentar o estado global com o e-mail digitado.
   handleClick = () => {
     const { history, dispatch } = this.props;
     const { email } = this.state;
     dispatch(addEmail(email));
+    // history do proveniente do BrowserRouter foi usado apenas para mudança de rota, ao clicar no botão.
     history.push('/carteira');
   };
 
   render() {
+    // isDisabled usado apenas para habilitar o botão
     const { isDisabled } = this.state;
     return (
       <div className="border-2 border-orange-500 shadow-lg p-10 rounded-xl">
@@ -61,6 +59,7 @@ class Login extends React.Component {
           <label htmlFor="email-input">
             <input
               onChange={ this.onInputChange }
+              // onInputChange implementado para receber a digitação
               className="w-full block border-2 p-1
               placeholder:italic bg-white border-orange-300
               focus:outline-none focus:border-orange-500 focus:ring-orange-400
@@ -90,6 +89,7 @@ class Login extends React.Component {
             enabled:bg-orange-500 text-white"
             type="button"
             disabled={ isDisabled }
+            // botão inicia desabilitado e apos validar os dois campos é alterado para true com o boolean isDisabled
             onClick={ this.handleClick }
           >
             Entrar
@@ -106,4 +106,6 @@ Login.propTypes = {
   dispatch: PropTypes.func.isRequired,
 };
 
+// foi usado o connect para receber através do Provider as props state, que é usado como um estado global.
+// note que não estamos usando o mapStateToProps pois não estamos recebendo nada do estado global apenas enviamos os dados para lá
 export default connect()(Login);

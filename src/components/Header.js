@@ -4,12 +4,16 @@ import PropTypes from 'prop-types';
 
 class Header extends Component {
   expensesValues = () => {
+    // feita a leitura do estado global através do mapStateToProps, usamos os dados da despesa
     const { expenses } = this.props;
     const arrayOfValues = expenses
       .map(({ currency, value, exchangeRates }) => {
+        // essa constante guarda o valor da moeda escolhida, buscada em ask que tem o cambio em relação ao real
         const exchange = exchangeRates[currency].ask;
+        // logo o valor do cambio é multiplicado pelo cambio encontrado
         return (Number(value) * Number(exchange));
       });
+      // ainda na função é feita a soma do valor, note que inicialmente esse valor é zero anulando uma possivel condicional.
     return arrayOfValues
       .reduce((acc, curr) => Number(acc) + Number(curr), 0)
       .toFixed(2);
@@ -26,7 +30,9 @@ class Header extends Component {
           { email }
         </h2>
         <h3 className="text-xl" data-testid="total-field">
-          { this.expensesValues() }
+          { // a função retorna o valor das despesas transformando para moeda selecionada, e mantendo duas casas decimais
+            this.expensesValues()
+          }
         </h3>
         <h3 data-testid="header-currency-field">
           BRL
@@ -37,6 +43,7 @@ class Header extends Component {
   }
 }
 
+// map para ler as informações do estado, buscando dois reducers o user e o wallet
 const mapStateToProps = (globalState) => ({
   email: globalState.user.email,
   expenses: globalState.wallet.expenses,
@@ -51,4 +58,6 @@ Header.propTypes = {
   email: PropTypes.string.isRequired,
 };
 
+// aqui o connet recebe o mapStateToProps porque usamos os valores do estado Global,
+// tanto o e-mail digitado na home quanto as despesas cadastradas pelo usuário
 export default connect(mapStateToProps)(Header);

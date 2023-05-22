@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import { addExpense, getCurrencys, saveEditExpense } from '../redux/actions/index';
 
 class WalletForm extends Component {
+  // foi criado um estado local para receber as informações digitadas no form
+  // a chave id foi implantada para ???
   state = {
     value: 0,
     description: '',
@@ -13,21 +15,26 @@ class WalletForm extends Component {
     id: 0,
   };
 
-  // realiza a requisição da API para obter a lista de moedas com a getCurrencys()
+  // realiza a requisição da API para obter a lista de moedas com a função getCurrencys()
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch(getCurrencys());
   }
 
+  // handleChange padrão para alimentar o form e passar para o estado local.
   handleChange = ({ target: { name, value } }) => {
     this.setState({
       [name]: value,
     });
   };
 
+  // ao clicar no botão dispara as informações do estado local para o estado global atravé da action assExpense
   handleClick = async () => {
     const { dispatch } = this.props;
+    // desestruturação do estado global
     const { value, description, currency, method, tag, id } = this.state;
+
+    // criada a const expense para receber as informações do estado local e passar via dispath para o estado global
     const expense = {
       value,
       description,
@@ -35,10 +42,12 @@ class WalletForm extends Component {
       method,
       tag,
       id,
+      // essa função foi implementada para receber um objeto atraves da chamada da API com todas as moedas, e passar na chave exchangeRates
       exchangeRates: await this.exchangeRates(),
     };
     dispatch(addExpense(expense));
 
+    // apos os dados serem enviados para o global, o form é limpo retorna ao original
     this.setState({
       value: '',
       description: '',
@@ -47,18 +56,20 @@ class WalletForm extends Component {
       tag: 'Alimentação',
     });
 
-    // O id da despesa para usar para editar
+    // O id da despesa vai sendo criada para futuramente ser usada para editar
     this.setState((prevState) => ({
       id: prevState.id + 1,
     }));
   };
 
+  // função criada para chamar a api com todas as moedas é um objeto.
   exchangeRates = async () => {
     try {
       const response = await fetch('https://economia.awesomeapi.com.br/json/all');
       const data = await response.json();
       return data;
     } catch (error) {
+      // se não tivermos retorno da API retornamos o erro no console.
       console.error(error);
     }
   };
@@ -77,6 +88,8 @@ class WalletForm extends Component {
       exchangeRates: await this.exchangeRates(),
     };
     dispatch(saveEditExpense(expense));
+
+    // após editar limpa o forms
     this.setState({
       value: '',
       description: '',
@@ -86,6 +99,7 @@ class WalletForm extends Component {
     });
 
     this.setState({
+      // pega o ultimo do array e coloca outro numero do id
       id: expenses[expenses.length - 1].id + 1,
     });
   };
@@ -133,14 +147,16 @@ class WalletForm extends Component {
             className="w-full shadow-inner block disabled:opacity-60 bg-orange-300
             rounded-md mb-2 p-1 enabled:bg-orange-200 text-white"
           >
-            {currencies.map((coin) => (
-              <option
-                value={ coin }
-                key={ coin }
-              >
-                { coin }
-              </option>
-            ))}
+            { // aqui é feito um map para montar as moedas buscadas da api
+              currencies.map((coin) => (
+                <option
+                  value={ coin }
+                  key={ coin }
+                >
+                  { coin }
+                </option>
+              ))
+            }
           </select>
           <select
             data-testid="method-input"
@@ -169,6 +185,7 @@ class WalletForm extends Component {
             <option value="Saúde">Saúde</option>
           </select>
           {
+            // aqui o botão editar só aparece quando é clicado devido estar no estado global e é setado via reducer
             editor ? (
               <button
                 type="button"

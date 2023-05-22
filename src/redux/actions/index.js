@@ -1,6 +1,7 @@
 import { ADD_EMAIL, REQUEST_SUCCESSFUL, ADD_EXPENSE,
   DELETE_EXPENSE, EDIT_EXPENSE, SAVE_EDIT_EXPENSE } from './actionType';
 
+// action que recebe o e-mail digitado na enviar para o estado global
 export const addEmail = (email) => ({
   type: ADD_EMAIL,
   payload: email,

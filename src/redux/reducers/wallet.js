@@ -18,9 +18,11 @@ const wallet = (state = INITIAL_STATE, action) => {
     return {
       ...state,
       expenses: state.expenses.filter(({ id }) => id !== action.payload),
+      // filtra para deletar apenas o id selecionado apagando do array
     };
   case EDIT_EXPENSE:
     return { ...state, editor: true, idToEdit: action.payload };
+    // ao clicar em editar o botão de editar passa para true e aparece no console
   case SAVE_EDIT_EXPENSE:
     return {
       ...state,
